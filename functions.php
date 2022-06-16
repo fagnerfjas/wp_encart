@@ -1,17 +1,15 @@
 <?php
 
-// function encart_enqueue_styles() {
-//     wp_enqueue_style( 'bootstrap',  get_template_directory_uri() . 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css' );
-//     wp_enqueue_style( 'core',       get_template_directory_uri() . '/style.css' );
-// }
-// add_action( 'wp_enqueue_scripts', 'encart_enqueue_styles');
+/**
+ * INCLUDES PHP 
+ */
+require_once get_template_directory() . '/inc/class-wp-bootstrap-navwalker.php';
 
-// function encart_enqueue_scripts() {
-//     wp_enqueue_script( 'bootstrap', get_template_directory_uri() . '/js/vendor/bootstrap.bundle.min.js',
-//     array( 'jquery' ) );
-// }
-// add_action( 'wp_enqueue_scripts', 'encart_enqueue_scripts');
 
+
+/**
+ * INCLUSÃO DE SCRIPTS
+ */
 function encart_enqueue_styles() {
     wp_enqueue_style( 'bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css' );
     wp_enqueue_style( 'core', get_template_directory_uri() . '/style.css' );
@@ -26,22 +24,40 @@ function encart_enqueue_scripts() {
 add_action( 'wp_enqueue_scripts', 'encart_enqueue_scripts');
 
 
+/**
+ * REGISTRO DE MENUS
+ */
 add_action('after_setup_theme', 'blankslate_setup');
 function blankslate_setup()
 {
-    load_theme_textdomain('blankslate', get_template_directory() . '/languages');
-    add_theme_support('title-tag');
-    add_theme_support('post-thumbnails');
-    add_theme_support('responsive-embeds');
-    add_theme_support('automatic-feed-links');
-    add_theme_support('html5', array('search-form', 'navigation-widgets'));
-    add_theme_support('woocommerce');
-    global $content_width;
-    if (!isset($content_width)) {
-        $content_width = 1920;
-    }
-    register_nav_menus(array('main-menu' => esc_html__('Main Menu', 'blankslate')));
+    // load_theme_textdomain('blankslate', get_template_directory() . '/languages');
+    // add_theme_support('title-tag');
+    // add_theme_support('post-thumbnails');
+    // add_theme_support('responsive-embeds');
+    // add_theme_support('automatic-feed-links');
+    // add_theme_support('html5', array('search-form', 'navigation-widgets'));
+    // add_theme_support('woocommerce');
+    // global $content_width;
+    // if (!isset($content_width)) {
+    //     $content_width = 1920;
+    // }
+
+    register_nav_menus(
+        array(
+            'main-menu' => esc_html__('Main Menu', 'wp-encart')
+        )
+    );
 }
+
+
+
+
+
+
+
+
+
+
 add_action('admin_notices', 'blankslate_notice');
 function blankslate_notice()
 {
