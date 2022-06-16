@@ -1,4 +1,31 @@
 <?php
+
+// function encart_enqueue_styles() {
+//     wp_enqueue_style( 'bootstrap',  get_template_directory_uri() . 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css' );
+//     wp_enqueue_style( 'core',       get_template_directory_uri() . '/style.css' );
+// }
+// add_action( 'wp_enqueue_scripts', 'encart_enqueue_styles');
+
+// function encart_enqueue_scripts() {
+//     wp_enqueue_script( 'bootstrap', get_template_directory_uri() . '/js/vendor/bootstrap.bundle.min.js',
+//     array( 'jquery' ) );
+// }
+// add_action( 'wp_enqueue_scripts', 'encart_enqueue_scripts');
+
+function encart_enqueue_styles() {
+    wp_enqueue_style( 'bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css' );
+    wp_enqueue_style( 'core', get_template_directory_uri() . '/style.css' );
+    wp_enqueue_style( 'wp-encart', get_template_directory_uri() . '/css/encart.css', array(), '1.0', 'all');
+}
+add_action( 'wp_enqueue_scripts', 'encart_enqueue_styles');
+
+function encart_enqueue_scripts() {
+    wp_enqueue_script( 'bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js' );
+    wp_enqueue_script( 'encart', get_template_directory_uri() . '/js/encart.js', array('jquery'), null, true);    
+}
+add_action( 'wp_enqueue_scripts', 'encart_enqueue_scripts');
+
+
 add_action('after_setup_theme', 'blankslate_setup');
 function blankslate_setup()
 {
@@ -31,15 +58,8 @@ function blankslate_notice_dismissed()
     if (isset($_GET['dismiss']))
         add_user_meta($user_id, 'blankslate_notice_dismissed_7', 'true', true);
 }
-add_action('wp_enqueue_scripts', 'blankslate_enqueue');
 
 
-
-function encart_enqueue()
-{
-    wp_enqueue_style('encart', get_template_directory_uri(), '/css/encart.css', array(), 1.0 );
-    wp_enqueue_script('encart', get_template_directory_uri(), '/js/encart.js', array(), null, true );
-}
 
 
 
