@@ -13,13 +13,18 @@ require_once get_template_directory() . '/inc/class-wp-bootstrap-navwalker.php';
 function encart_enqueue_styles() {
     wp_enqueue_style( 'bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css' );
     wp_enqueue_style( 'core', get_template_directory_uri() . '/style.css' );
-    wp_enqueue_style( 'wp-encart', get_template_directory_uri() . '/css/encart.css', array(), '1.0', 'all');
+    wp_enqueue_style( 'start_bootstrap', get_template_directory_uri() . '/css/start_bootstrap.css', array(), '1.0', 'all');
+    wp_enqueue_style( 'fontes-1', 'https://fonts.googleapis.com/css?family=Montserrat:400,700', array(), '1.0', 'all');
+    wp_enqueue_style( 'fontes-2', 'https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700', array(), '1.0', 'all');
 }
 add_action( 'wp_enqueue_scripts', 'encart_enqueue_styles');
 
 function encart_enqueue_scripts() {
+    wp_enqueue_script( 'scripts-fonte', 'https://use.fontawesome.com/releases/v6.1.0/js/all.js', array('jquery'), null, false);
     wp_enqueue_script( 'bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js' );
-    wp_enqueue_script( 'encart', get_template_directory_uri() . '/js/encart.js', array('jquery'), null, true);    
+    wp_enqueue_script( 'start_bootstrap', get_template_directory_uri() . '/js/start_bootstrap.js', array('jquery'), null, true);    
+
+        
 }
 add_action( 'wp_enqueue_scripts', 'encart_enqueue_scripts');
 
