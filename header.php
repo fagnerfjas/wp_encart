@@ -11,7 +11,29 @@
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container">
                 <a class="navbar-brand" href="#page-top"><img src="assets/img/navbar-logo.svg" alt="..." /></a>
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars ms-1"></i>
+                </button>
+
+                <?php
+                    wp_nav_menu( array(
+                        'theme_location'    => 'main-menu',
+                        'depth'             => 2,
+                        'container'         => 'div',
+                        'container_class'   => 'collapse navbar-collapse',
+                        'container_id'      => 'navbarResponsive',
+                        'menu_class'        => 'navbar-nav text-uppercase ms-auto py-4 py-lg-0',
+                        'fallback_cb'       => 'WP_Bootstrap_Navwalker::fallback',
+                        'walker'            => new WP_Bootstrap_Navwalker(),
+                    ) );
+                ?>
+
+
+
+
+                <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
                     <i class="fas fa-bars ms-1"></i>
                 </button>
@@ -23,7 +45,7 @@
                         <li class="nav-item"><a class="nav-link" href="#team">Team</a></li>
                         <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
                     </ul>
-                </div>
+                </div> -->
             </div>
         </nav>
 

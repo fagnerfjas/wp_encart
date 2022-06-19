@@ -4,8 +4,7 @@
  * INCLUDES PHP 
  */
 require_once get_template_directory() . '/inc/class-wp-bootstrap-navwalker.php';
-
-
+add_theme_support('post-thumbnails');
 
 /**
  * INCLUSÃO DE SCRIPTS
@@ -27,6 +26,10 @@ function encart_enqueue_scripts() {
         
 }
 add_action( 'wp_enqueue_scripts', 'encart_enqueue_scripts');
+
+
+
+
 
 
 /**
@@ -53,6 +56,53 @@ function blankslate_setup()
         )
     );
 }
+
+/**
+ * REGISTRO DO TIPO DE POST 
+ */
+
+function create_post_types() {
+    $labels = array(
+      'name'                => __( 'Produtos', 'wp_encart' ),
+      'singular_name'       => __( 'Produto', 'wp_encart' ),
+      'add_new'             => __( 'Adicionar Novo', 'wp_encart' ),
+      'add_new_item'        => __( 'Adicionar Novo Produto', 'wp_encart' ),
+      'edit_item'           => __( 'Editar Produto', 'wp_encart' ),
+      'new_item'            => __( 'Novo Produto', 'wp_encart' ),
+      'all_items'           => __( 'Todos os Produtos', 'wp_encart' ),
+      'view_item'           => __( 'Ver Produto', 'wp_encart' ),
+      'search_items'        => __( 'Pesquisar Produtos', 'wp_encart' ),
+      'not_found'           => __( 'Nenhum Produto encontrada', 'wp_encart' ),
+      'not_found_in_trash'  => __( 'Nenhum Produto no Lixo', 'wp_encart' ),
+      'menu_name'           => __( 'Produtos', 'wp_encart' ),
+    );
+  
+    $supports = array( 'title', 'editor', 'thumbnail', 'author' );
+  
+    $slug = get_theme_mod( 'produto_permalink' );
+    $slug = ( empty( $slug ) ) ? 'cliente' : $slug;
+  
+    $args = array(
+      'labels'              => $labels,
+      'public'              => true,
+      'publicly_queryable'  => true,
+      'show_ui'             => true,
+      'show_in_menu'        => true,
+      'query_var'           => true,
+      'rewrite'             => array( 'slug' => $slug ),
+      'capability_type'     => 'post',
+      'has_archive'         => true,
+      'hierarchical'        => true,
+      'menu_position'       => 4,
+      'supports'            => $supports,      
+      'menu_icon'           => 'dashicons-products',
+      'taxonomies'          => array( 'category' ),
+    );
+  
+    register_post_type( 'produto', $args );
+  
+  }
+  add_action( 'init', 'create_post_types' );
 
 
 
@@ -228,3 +278,45 @@ function blankslate_comment_count($count)
         return $count;
     }
 }
+
+
+
+
+/**
+ * Adicionando a imagem destacada na lista do post
+ */
+/* Adiciona Imagem Destacada na Coluna da Listagem de Posts */
+if ( function_exists( 'add_theme_support' ) ) {
+    add_image_size( 'admin-thumb', 100, 999999 ); // 100 pixels de largura (e altura ilimitada)
+}
+    
+    add_filter('manage_posts_columns', 'posts_columns', 5);
+    add_action('manage_posts_custom_column', 'posts_custom_columns', 5, 2);
+    
+function posts_columns($defaults){
+    $defaults['my_post_thumbs'] = __('Foto'); //Modifique o nome para o que desejar
+    return $defaults;
+}
+    
+function posts_custom_columns($column_name, $id){
+    if($column_name === 'my_post_thumbs'){
+        echo the_post_thumbnail( 'admin-thumb' );
+    }
+}
+
+function your_columns_head($defaults) {
+
+    $new = array();
+    $tags = $defaults['my_post_thumbs']; // Salva a coluna Imagem
+    unset($defaults['my_post_thumbs']); // Remove a coluna Imagem da lista
+    
+    foreach($defaults as $key=>$value) {
+    if($key=='title') { // Quando encontrar a coluna titulo
+    $new['my_post_thumbs'] = $tags; // Coloque a coluna Imagem antes dele
+    }
+    $new[$key]=$value;
+    }
+    
+    return $new;
+    }
+add_filter('manage_posts_columns', 'your_columns_head');
